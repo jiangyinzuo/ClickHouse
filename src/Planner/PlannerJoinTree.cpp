@@ -1,6 +1,7 @@
 #include <Planner/PlannerJoinTree.h>
 
 #include <Common/scope_guard_safe.h>
+#include <Core/ParallelReplicasMode.h>
 
 #include <Columns/ColumnAggregateFunction.h>
 
@@ -503,7 +504,7 @@ FilterDAGInfo buildCustomKeyFilterIfNeeded(const StoragePtr & storage,
         settings.parallel_replicas_count,
         settings.parallel_replica_offset,
         std::move(custom_key_ast),
-        {settings.parallel_replicas_custom_key_filter_type,
+        {settings.parallel_replicas_mode,
          settings.parallel_replicas_custom_key_range_lower,
          settings.parallel_replicas_custom_key_range_upper},
         storage->getInMemoryMetadataPtr()->columns,
@@ -835,7 +836,11 @@ JoinTreeQueryPlan buildQueryPlanForTableExpression(QueryTreeNodePtr table_expres
                 if (row_policy_filter_info.actions)
                     table_expression_data.setRowLevelFilterActions(row_policy_filter_info.actions);
 
+<<<<<<< HEAD
                 if (query_context->canUseParallelReplicasCustomKey())
+=======
+                if (query_context->getParallelReplicasMode() == ParallelReplicasMode::CUSTOM_KEY_SAMPLING)
+>>>>>>> 97fc943989d (Settings unification)
                 {
                     if (settings.parallel_replicas_count > 1)
                     {

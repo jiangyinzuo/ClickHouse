@@ -1327,13 +1327,6 @@ public:
 
     ClusterPtr getClusterForParallelReplicas() const;
 
-    enum class ParallelReplicasMode : uint8_t
-    {
-        SAMPLE_KEY,
-        CUSTOM_KEY,
-        READ_TASKS,
-    };
-
     ParallelReplicasMode getParallelReplicasMode() const;
 
     void setPreparedSetsCache(const PreparedSetsCachePtr & cache);
