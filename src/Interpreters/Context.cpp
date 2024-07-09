@@ -5532,7 +5532,7 @@ bool Context::canUseOffsetParallelReplicas() const
 {
     /// context->getParallelReplicasMode() == ParallelReplicasMode::CUSTOM_KEY_SAMPLING
     return offset_parallel_replicas_enabled && settings.max_parallel_replicas > 1
-        && getParallelReplicasMode() != Context::ParallelReplicasMode::READ_TASKS;
+        && getParallelReplicasMode() != ParallelReplicasMode::READ_TASKS;
 }
 
 void Context::disableOffsetParallelReplicas()
