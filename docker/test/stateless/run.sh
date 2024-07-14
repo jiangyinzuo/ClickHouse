@@ -222,8 +222,10 @@ do
     sleep 1
 done
 
-setup_logs_replication
-
+setup_logs_replication 9000
+if [[ "$RUN_SEQUENTIAL_TESTS_IN_PARALLEL" -eq 1 ]]; then
+    setup_logs_replication 19000
+fi
 attach_gdb_to_clickhouse || true  # FIXME: to not break old builds, clean on 2023-09-01
 
 function fn_exists() {
@@ -343,7 +345,10 @@ ls -la /
 clickhouse-client -q "system flush logs" ||:
 
 # stop logs replication to make it possible to dump logs tables via clickhouse-local
-stop_logs_replication
+stop_logs_replication 9000
+if [[ "$RUN_SEQUENTIAL_TESTS_IN_PARALLEL" -eq 1 ]]; then
+    setup_logs_replicationstop_logs_replication 19000
+fi
 
 # Try to get logs while server is running
 failed_to_save_logs=0
