@@ -547,8 +547,7 @@ def test_move_replace_partition_to_another_table(cluster, node_name):
     # Number of objects in S3 should be unchanged.
     wait_for_delete_s3_objects(
         cluster,
-        FILES_OVERHEAD * 2
-        + FILES_OVERHEAD_PER_PART_WIDE * 4,
+        FILES_OVERHEAD * 2 + FILES_OVERHEAD_PER_PART_WIDE * 4,
     )
 
     # Add new partitions to source table, but with different values and replace them from copied table.
@@ -564,8 +563,7 @@ def test_move_replace_partition_to_another_table(cluster, node_name):
     list_objects(cluster, "data/", "Object after insert")
     wait_for_delete_s3_objects(
         cluster,
-        FILES_OVERHEAD * 2
-        + FILES_OVERHEAD_PER_PART_WIDE * 6,
+        FILES_OVERHEAD * 2 + FILES_OVERHEAD_PER_PART_WIDE * 6,
     )
 
     node.query("ALTER TABLE s3_test REPLACE PARTITION '2020-01-03' FROM s3_clone")
@@ -590,8 +588,7 @@ def test_move_replace_partition_to_another_table(cluster, node_name):
     list_objects(cluster, "data/", "Object after drop")
     wait_for_delete_s3_objects(
         cluster,
-        FILES_OVERHEAD
-        + FILES_OVERHEAD_PER_PART_WIDE * 4,
+        FILES_OVERHEAD + FILES_OVERHEAD_PER_PART_WIDE * 4,
     )
 
     node.query("ALTER TABLE s3_test FREEZE")
@@ -599,8 +596,7 @@ def test_move_replace_partition_to_another_table(cluster, node_name):
     list_objects(cluster, "data/", "Object after freeze")
     wait_for_delete_s3_objects(
         cluster,
-        FILES_OVERHEAD
-        + FILES_OVERHEAD_PER_PART_WIDE * 4,
+        FILES_OVERHEAD + FILES_OVERHEAD_PER_PART_WIDE * 4,
     )
 
     node.query("DROP TABLE s3_test SYNC")
