@@ -134,13 +134,6 @@ jobs:
     with:
       stage: Tests_2
       data: ${{ needs.RunConfig.outputs.data }}
-  Tests_3:
-    needs: [RunConfig, Builds_1, Tests_1]
-    if: ${{ !failure() && !cancelled() && contains(fromJson(needs.RunConfig.outputs.data).stages_data.stages_to_do, 'Tests_3') }}
-    uses: ./.github/workflows/reusable_test_stage.yml
-    with:
-      stage: Tests_3
-      data: ${{ needs.RunConfig.outputs.data }}
 
   ################################# Reports #################################
   # Reports should run even if Builds_1/2 fail - run them separately (not in Tests_1/2/3)
@@ -168,6 +161,14 @@ jobs:
         run: |
           cd "$GITHUB_WORKSPACE/tests/ci"
           python3 merge_pr.py --set-ci-status --wf-status ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
+
+  Tests_3:
+    needs: [RunConfig, Builds_1, CheckReadyForMerge]
+    if: ${{ !failure() && !cancelled() && contains(fromJson(needs.RunConfig.outputs.data).stages_data.stages_to_do, 'Tests_3') }}
+    uses: ./.github/workflows/reusable_test_stage.yml
+    with:
+      stage: Tests_3
+      data: ${{ needs.RunConfig.outputs.data }}
 
   ################################# Stage Final #################################
   #
