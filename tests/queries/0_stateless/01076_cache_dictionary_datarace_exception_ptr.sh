@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tags: race
+# Tags: no-parallel, race
 
 # This is a monkey test used to trigger sanitizers.
 
