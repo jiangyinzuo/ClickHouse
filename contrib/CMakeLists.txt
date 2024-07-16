@@ -25,6 +25,9 @@ function(add_contrib cmake_folder)
         endif()
 
         file(GLOB contrib_files "${base_folder}/*")
+        # Remove .git from contrib_files. Sometimes when the git submodule download fails,
+        # only a `.git` file may exist in the directory, and in this case, it should be considered as an empty repository.
+        list(FILTER contrib_files EXCLUDE REGEX ".*\\.git.*")
         if (NOT contrib_files)
             # Checking out *all* submodules takes > 5 min. Therefore, the smoke build ("FastTest") in CI initializes only the set of
             # submodules minimally needed for a build and we cannot assume here that all submodules are populated.
