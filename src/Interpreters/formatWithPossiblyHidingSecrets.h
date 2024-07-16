@@ -4,6 +4,8 @@
 #include <Interpreters/Context.h>
 
 
+#include <Core/Settings.h>
+
 namespace DB
 {
 
